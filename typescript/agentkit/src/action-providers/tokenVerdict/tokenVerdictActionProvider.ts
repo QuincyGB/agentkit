@@ -56,13 +56,21 @@ export class TokenVerdictActionProvider extends ActionProvider<EvmWalletProvider
    */
   @CreateAction({
     name: "token_verdict",
-    description:
-      "Get a risk verdict for a token before buying, swapping, or routing funds into it. " +
-      "Costs $0.02 USDC on Base (paid automatically from the agent wallet via x402). " +
-      "Returns SOLID / CAUTION / DANGER with a 0-100 score, six weighted market-structure " +
-      "signals (liquidity depth, volume churn, sell pressure, price action, trader " +
-      "breadth, pair age) and a written analyst take. Use this when about to interact " +
-      "with a token whose market quality is unknown.",
+    description: `
+This tool will get a risk verdict for a token before buying, swapping, or routing funds into it.
+It calls Token Verdict, a live x402 service, and pays $0.02 USDC on Base automatically from the agent wallet.
+It returns a verdict (SOLID / CAUTION / DANGER) with a 0-100 score, six weighted market-structure signals
+(liquidity depth, volume churn, sell pressure, price action, trader breadth, pair age), a written analyst
+take, and the raw market data.
+
+Inputs:
+- address: The token contract address (0x...)
+- chain: Which token market to analyze - "base" (default), "ethereum", or "solana".
+  Payment always settles in USDC on Base, whichever chain's token is analyzed.
+
+Use this when about to interact with a token whose market quality is unknown. If you are unsure of the
+token contract address, please ask the user before proceeding.
+`,
     schema: TokenVerdictSchema,
   })
   async tokenVerdict(

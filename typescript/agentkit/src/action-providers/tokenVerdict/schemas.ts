@@ -20,6 +20,7 @@ export const TokenVerdictSchema = z
       .default("base")
       .describe("Chain label: base | ethereum | solana"),
   })
-  .strict();
+  .strict()
+  .describe("Instructions for getting a token risk verdict");
 
 export type TokenVerdictArgs = z.infer<typeof TokenVerdictSchema>;
